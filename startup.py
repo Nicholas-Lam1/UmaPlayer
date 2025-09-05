@@ -30,8 +30,8 @@ def find_and_open_window():
             for title in open_windows:
                 print(f"- {title}")
         
-        # if constants.GAME_NAME in open_windows:
-        #     break
+        if constants.GAME_NAME in open_windows:
+            break
 
     hwnd = win32gui.FindWindow(None, constants.GAME_NAME)
     if hwnd:

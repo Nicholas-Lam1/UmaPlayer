@@ -14,6 +14,9 @@ if args.DEBUG:
     print(args)
 
 from handler import initialize_game
+import ctypes
+
+ctypes.windll.user32.SetProcessDPIAware()
 
 def main():
     initialize_game()
