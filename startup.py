@@ -3,7 +3,7 @@ import time
 from time import sleep
 from win32 import win32gui
 from win32.lib import win32con
-from constants import *
+import constants
 from coordinate_handler import get_win_cords
 
 def open_game():
@@ -21,27 +21,27 @@ def get_open_window_titles():
     win32gui.EnumWindows(enum_windows_callback, window_titles)
     return window_titles
 
-def find_and_open_window(m_flag):
-    print(m_flag)
+def find_and_open_window():
     start_time = time.time()
     while time.time() - start_time < 15:
         open_windows = get_open_window_titles()
-        if DEBUG:
+        if constants.DEBUG:
             print("Open Windows:")
             for title in open_windows:
                 print(f"- {title}")
         
-        if "Umamusume" in open_windows:
-            break
+        # if constants.GAME_NAME in open_windows:
+        #     break
 
-    hwnd = win32gui.FindWindow(None, "Umamusume")
+    hwnd = win32gui.FindWindow(None, constants.GAME_NAME)
     if hwnd:
         try:
             win32gui.SetForegroundWindow(hwnd)
             print("Window Opened")
-            if m_flag:
+            if constants.MAXIMIZE:
                 sleep(3)
                 win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
-            return get_win_cords(hwnd)
+            sleep(3)
+            get_win_cords()
         except:
             print("Window Not Found.")
