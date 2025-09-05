@@ -1,1 +1,2 @@
 DEBUG = False
+MAXIMIZE = False
