@@ -13,13 +13,16 @@ constants.MAXIMIZE = args.MAXIMIZE
 if args.DEBUG:
     print(args)
 
-from handler import initialize_game
+from startup import open_game, find_and_open_window
 import ctypes
-
 ctypes.windll.user32.SetProcessDPIAware()
 
 def main():
-    initialize_game()
+    open_game()
+    find_and_open_window()
+
+    from handler import start_handler
+    start_handler()
     
 if __name__ == "__main__":
     main()

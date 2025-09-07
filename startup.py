@@ -39,7 +39,7 @@ def find_and_open_window():
             win32gui.SetForegroundWindow(hwnd)
             print("Window Opened")
             if constants.MAXIMIZE:
-                sleep(3)
+                sleep(1)
                 win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
             sleep(3)
             get_win_cords()

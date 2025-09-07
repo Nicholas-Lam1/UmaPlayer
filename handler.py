@@ -1,13 +1,35 @@
-from startup import open_game, find_and_open_window
-from time import sleep
+from ocr import find_text_at_position, click, find_pos_tool
+from rand_adjust import rand_sleep
+import constants as const
 
-def initialize_game():
-    open_game()
-    find_and_open_window()
-    sleep(10)
-    
-    start_game()
+def start_handler():
+    # start_game()
+    test_menu()
+    # find_pos_tool([const.ENHANCE_BUTTON_POS, 
+    #                const.STORY_BUTTON_POS, 
+    #                const.HOME_BUTTON_POS, 
+    #                const.RACE_BUTTON_POS, 
+    #                const.SCOUT_BUTTON_POS,
+    #                const.TITLE_BAR_POS,
+    #                const.CAREER_BUTTON_POS])
 
 def start_game():
-    from ocr import find_text
-    find_text()
+    find_text_at_position(position=const.START_BUTTON_POS, text="TAP TO START")
+    rand_sleep(5)
+
+def test_menu():
+    while find_text_at_position(position=const.TITLE_BAR_POS, text="Enhance") is not None:
+        click(find_text_at_position(position=const.ENHANCE_BUTTON_POS, text="Enhance"))
+        rand_sleep(2)
+    while not find_text_at_position(position=const.TITLE_BAR_POS, text="Story") is not None:
+        click(find_text_at_position(position=const.STORY_BUTTON_POS, text="Story"))
+        rand_sleep(2)
+    while not find_text_at_position(position=const.CAREER_BUTTON_POS, text="CAREER") is not None:
+        click(find_text_at_position(position=const.HOME_BUTTON_POS, text="Home"))
+        rand_sleep(2)
+    while not find_text_at_position(position=const.TITLE_BAR_POS, text="Race") is not None:
+        click(find_text_at_position(position=const.RACE_BUTTON_POS, text="Race"))
+        rand_sleep(2)
+    while not find_text_at_position(position=const.TITLE_BAR_POS, text="Scout") is not None:
+        click(find_text_at_position(position=const.SCOUT_BUTTON_POS, text="Scout"))
+        rand_sleep(2)
