@@ -19,3 +19,4 @@ def get_win_cords():
     constants.WINDOW_BOTTOM = client_right_bottom[1]
     constants.WINDOW_WIDTH = width
     constants.WINDOW_HEIGHT = height
+
