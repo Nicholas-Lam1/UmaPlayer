@@ -17,23 +17,23 @@ class Positions:
         self.GAME_WIDTH = 0
         self.GAME_HEIGHT = 0
 
+        self.START_WINDOW ={
+            "START_BUTTON": (0.4, 0.89, 0.2, 0.08),
+        }
+
         # Relative windows (x%, y%, width%, height%)
         self.RELATIVE_WINDOWS = {
-            "START_BUTTON": (0.4, 0.89, 0.2, 0.08),
-            "BOTTOM_MENU": (0.1375, 0.8, 0.3, 0.05),
-            "ENHANCE_BUTTON": (0.1375, 0.8, 0.0525, 0.05),
-            "STORY_BUTTON": (0.19, 0.8, 0.0525, 0.05), 
-            "HOME_BUTTON": (0.2425, 0.8, 0.091, 0.05),
-            "RACE_BUTTON": (0.3335, 0.8, 0.0525, 0.05), 
-            "SCOUT_BUTTON": (0.386, 0.8, 0.0525, 0.05),
-            "TITLE_BAR": (0.065, 0, 0.1, 0.15),
-            "CAREER_BUTTON": (0.31, 0.895, 0.12, 0.05),
-            "CLUB_SHOP_BUTTONS": (0.1375, 0.92, 0.12, 0.035),
+            "TITLE_BAR": (0, 0, 0.25, 0.2),
+            "CAREER_BUTTON": (0.61, 0.84, 0.17, 0.05),
         }
 
         # Relative points (x%, y%)
         self.RELATIVE_POINTS = {
-            "START_BUTTON": (0.9, 0.95),
+            "ENHANCE_BUTTON": (0.2, 0.96),
+            "STORY_BUTTON": (0.325, 0.96), 
+            "HOME_BUTTON": (0.5, 0.96),
+            "RACE_BUTTON": (0.675, 0.96), 
+            "SCOUT_BUTTON": (0.8, 0.96),       
         }
 
     def rel_to_abs(self, rel):
@@ -44,16 +44,16 @@ class Positions:
         """
         if len(rel) == 2:
             x, y = rel
-            abs_x = int(x * self.WINDOW_WIDTH)
-            abs_y = int(y * self.WINDOW_HEIGHT)
+            abs_x = int(x * self.GAME_WIDTH)
+            abs_y = int(y * self.GAME_HEIGHT)
             return (abs_x, abs_y)
 
         elif len(rel) == 4:
             x, y, w, h = rel
-            abs_x = int(x * self.WINDOW_WIDTH)
-            abs_y = int(y * self.WINDOW_HEIGHT)
-            abs_w = int(w * self.WINDOW_WIDTH)
-            abs_h = int(h * self.WINDOW_HEIGHT)
+            abs_x = int(x * self.GAME_WIDTH)
+            abs_y = int(y * self.GAME_HEIGHT)
+            abs_w = int(w * self.GAME_WIDTH)
+            abs_h = int(h * self.GAME_HEIGHT)
             return (abs_x, abs_y, abs_w, abs_h)
 
         else:

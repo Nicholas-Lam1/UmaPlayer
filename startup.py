@@ -9,8 +9,9 @@ from coordinate_handler import find_game_area
 def open_game():
     """ Function to open the game via Steam """
     subprocess.run(f"start steam://run/3224770", shell=True)
+    sleep(10)  
 
-def find_windows(hwnd, window_titles):
+def find_windows(hwnd, window_titles): 
     """ Function to collect open window titles """
     if win32gui.IsWindowVisible(hwnd):
         title = win32gui.GetWindowText(hwnd)

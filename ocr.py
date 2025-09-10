@@ -5,7 +5,6 @@ import pyautogui
 import numpy as np
 import easyocr
 import time
-import playsound
 
 textDetectorEAST= cv2.dnn_TextDetectionModel_EAST(config.MODEL_PATH)
 textDetectorEAST.setConfidenceThreshold(config.CONF_THRESH)
@@ -104,39 +103,3 @@ def click(position, text=None):
         print(f"Clicked on text: {text} at ({position[0]}, {position[1]})")
     else:
         print(f"Clicked at ({position[0]}, {position[1]})")
-
-def find_pos_tool(positions):
-    image = pyautogui.screenshot(region=(pos.WINDOW_LEFT, pos.WINDOW_TOP, pos.WINDOW_WIDTH, pos.WINDOW_HEIGHT))
-    image = np.array(image)
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-
-    for position in positions:
-        pt1 = (position[0], position[1])
-        pt2 = (position[0] + position[2], position[1] + position[3])
-        cv2.rectangle(image, pt1, pt2, (0, 255, 0), 2)
-    
-    cv2.imshow("Position Tool", image)
-    playsound.playsound('./wav_files/notification.wav')
-
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-def reference_pos_tool():
-    image = pyautogui.screenshot(region=(pos.GAME_LEFT, pos.GAME_TOP, pos.GAME_WIDTH, pos.GAME_HEIGHT))
-    image = np.array(image)
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-
-    # Draw vertical lines at eighths intervals
-    for i in range(1, 8):
-        x = int(pos.GAME_WIDTH * i / 8)
-        cv2.line(image, (x, 0), (x, pos.GAME_HEIGHT), (0, 0, 255), 1)  
-
-    # Draw horizontal lines at eighths intervals
-    for i in range(1, 8):
-        y = int(pos.GAME_HEIGHT * i / 8)
-        cv2.line(image, (0, y), (pos.GAME_WIDTH, y), (0, 0, 255), 1) 
-    cv2.imshow("Reference Tool", image)
-    playsound.playsound('./wav_files/notification.wav')
-
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()

@@ -1,17 +1,15 @@
 from coordinate import pos
-from ocr import find_text_at_position, click, find_pos_tool, reference_pos_tool
+from ocr import find_text_at_position, click
+from tools import find_start_tool, find_pos_tool, reference_pos_tool
 from rand_adjust import rand_sleep
 
 def start_handler():
     # start_game()
     # test_menu()
-    # find_pos_tool([pos.ENHANCE_BUTTON_POS, 
-    #                pos.STORY_BUTTON_POS, 
-    #                pos.HOME_BUTTON_POS, 
-    #                pos.RACE_BUTTON_POS, 
-    #                pos.SCOUT_BUTTON_POS,
-    #                pos.TITLE_BAR_POS,
-    #                pos.CAREER_BUTTON_POS])
+    find_start_tool()    
+    rand_sleep(5)
+    find_pos_tool()
+    rand_sleep(1)
     reference_pos_tool()
 
 def start_game():
