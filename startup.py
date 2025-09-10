@@ -4,7 +4,7 @@ from time import sleep
 from win32 import win32gui
 from win32.lib import win32con
 import constants
-from coordinate_handler import get_win_cords
+from coordinate_handler import find_game_area
 
 def open_game():
     subprocess.run(f"start steam://run/3224770", shell=True)
@@ -42,6 +42,6 @@ def find_and_open_window():
                 sleep(1)
                 win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
             sleep(3)
-            get_win_cords()
+            find_game_area()
         except:
             print("Window Not Found.")
