@@ -45,7 +45,7 @@ def find_game_area():
     image = np.array(image)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
-    edges = cv2.Canny(blur, 25, 50)
+    edges = cv2.Canny(blur, 20, 50)
 
     if config.DEBUG:
         cv2.imshow("Gray", gray)
@@ -58,9 +58,9 @@ def find_game_area():
         edges,
         rho=1,
         theta=np.pi/180,
-        threshold=100,
-        minLineLength=pos.WINDOW_HEIGHT * 0.99,
-        maxLineGap=pos.WINDOW_HEIGHT
+        threshold=30,
+        minLineLength=pos.WINDOW_HEIGHT * 0.9,
+        maxLineGap=pos.WINDOW_HEIGHT / 3
     )
 
     # If a single vertical line is found, set game area coordinates

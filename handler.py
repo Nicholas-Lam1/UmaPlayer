@@ -12,13 +12,6 @@ def start_handler():
     find_pos_tool()
     rand_sleep(1)
     # reference_pos_tool()
-    find_text_at_position(position=pos.get_window_from_game("RP_COUNT"), text="5/5")
-    # image = pyautogui.screenshot(region=pos.get_window_from_game("RP_COUNT"))
-    # image = np.array(image)
-    # image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    # cv2.imshow("Position Tool", image)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
 
 def test_menu():
     """ Test function to navigate through main menu """

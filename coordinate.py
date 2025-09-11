@@ -25,7 +25,7 @@ class Positions:
             "START_BUTTON": (0.375, 0.8, 0.25, 0.14),       # Uses full window dimensions
             "TITLE_BAR": (0, 0, 0.25, 0.18),
             "CAREER_BUTTON": (0.63, 0.836, 0.23, 0.054),
-            "RP_COUNT": (0.66, 0.015, 0.0625, 0.04),
+            "RP_BAR": (0.545, 0.0425, 0.17, 0.02),
         }
 
         # Relative points (x%, y%)
