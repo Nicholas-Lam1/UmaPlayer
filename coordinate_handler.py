@@ -44,52 +44,62 @@ def find_game_area():
     # Find left edge of game area by detecting vertical line
     image = np.array(image)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    blur = cv2.GaussianBlur(gray, (5, 5), 0)
-    edges = cv2.Canny(blur, 20, 50)
 
     if config.DEBUG:
-        cv2.imshow("Gray", gray)
-        cv2.imshow("Blur", image)
-        cv2.imshow("Edges", edges)
+        cv2.imshow("Gray", image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-    lines = cv2.HoughLinesP(
-        edges,
-        rho=1,
-        theta=np.pi/180,
-        threshold=30,
-        minLineLength=pos.WINDOW_HEIGHT * 0.9,
-        maxLineGap=pos.WINDOW_HEIGHT / 3
-    )
-
-    # If a single vertical line is found, set game area coordinates
-    if lines is not None and len(lines) == 1:
-        x1, y1, x2, y2 = lines[0][0]
+    edges = []
+    for i in range(10, gray.shape[0], int((gray.shape[0] - 20) / 8)):       # If the pin button is hit, can move the starting point down below it
+        prev_pixel = None
+        for j in range(0, len(gray[i])):
+            if prev_pixel == None:
+                prev_pixel = gray[i][j]
+                continue
+            if config.GAME_EDGE_THRESH <= (delta := int(prev_pixel) - int(gray[i][j])):       
+                edges.append((j, i, delta))
+                if config.DEBUG:
+                    cv2.circle(gray, (j, i), 5, (0, 0, 255), -1)  
+                break
+            prev_pixel = gray[i][j]
         if config.DEBUG:
-            print(f"Line: ({x1}, {y1}) to ({x2}, {y2})")
-            cv2.line(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            print(f"Detected {len(lines)} lines")
+            cv2.line(gray, (0, i), (len(gray[i]), i), (0, 255, 0), 1)  
 
-        # Ensure the line is vertical, otherwise, line may not be correct (Maybe swap this to a repeat until found?)
-        if abs(x1 - x2) > 5:
-            raise Exception("Detected line is not vertical.")
+    if config.DEBUG:
+        cv2.imshow("Checked Lines", gray)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()   
 
-        pos.GAME_LEFT_OFFSET = x1
+    if edges:
+        sum_x = sum(x for x, y, d in edges)
+        avg_x = int(sum_x / len(edges))
+
+        for x, y, d in edges:
+            if abs(x - avg_x) > 5:
+                raise Exception("Detected line is not vertical.")
+            
+        if config.DEBUG:
+            print(f"Line: ({edges[0][0]}, {edges[0][1]}) to ({edges[-1][0]}, {edges[-1][1]})")
+            cv2.line(gray, (edges[0][0], edges[0][1]), (edges[-1][0], edges[-1][1]), (0, 255, 0), 2)
+            print(f"Detected line")            
+        
+        pos.GAME_LEFT_OFFSET = avg_x
         pos.GAME_TOP_OFFSET = 0
-        pos.GAME_LEFT = int(pos.WINDOW_LEFT + x1)
-        pos.GAME_RIGHT = int(pos.WINDOW_RIGHT - x1)
+        pos.GAME_LEFT = int(pos.WINDOW_LEFT + avg_x)
+        pos.GAME_RIGHT = int(pos.WINDOW_RIGHT - avg_x)
         pos.GAME_TOP = int(pos.WINDOW_TOP)
         pos.GAME_BOTTOM = int(pos.WINDOW_BOTTOM)
-        pos.GAME_WIDTH = int((pos.WINDOW_WIDTH - int(x1 * 2)) // 2)
+        pos.GAME_WIDTH = int((pos.WINDOW_WIDTH - int(avg_x * 2)) // 2)
         pos.GAME_HEIGHT = int(pos.WINDOW_HEIGHT)
 
-    # If no or multiple lines found, raise exception
     else:
-        raise Exception("Edge of game area not found.")
-        
-    if config.DEBUG:
-        cv2.imshow("Detected Lines", image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        print("Edge of game area not found.")
+        return False
 
+    if config.DEBUG:
+        cv2.imshow("Found Edge", gray)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()  
+
+    return True

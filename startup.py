@@ -32,7 +32,7 @@ def find_and_open_window():
     """ Function to find and open the game window """
     # Wait up to 15 seconds for the game window to appear
     start_time = time()
-    while time() - start_time < 15:
+    while time() - start_time < 60:
         open_windows = get_open_window_titles()
         if config.DEBUG:
             print("Open Windows:")
@@ -63,12 +63,14 @@ def find_and_open_window():
                 find_start_tool()  
                 sleep(3)
             # click_start_game()
-            sleep(3)
-            find_game_area()
+            start_time = time()
+            while time() - start_time < 15:
+                if find_game_area():
+                    break
+                sleep(0.5)
         except:
             raise Exception("Window Not Found")
         
 def click_start_game():
     while (position := find_text_at_position(position=pos.get_window_from_win("START_BUTTON"), text="TAP TO START")) is not None:
         click(position, "TAP TO START")
-        rand_sleep(3)

@@ -7,6 +7,10 @@ class Config:
 
         # Game parameters
         self.GAME_NAME = "Umamusume"
+        self.GAME_EDGE_THRESH = 10
+
+        # Movement parameters
+        self.PIX_SEC_RATIO = 200
 
         # OCR/EAST model parameters
         self.MODEL_PATH = "frozen_east_text_detection.pb"

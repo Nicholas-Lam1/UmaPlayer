@@ -1,10 +1,12 @@
 from configuration import config
 from coordinate import pos
+from rand_adjust import rand_move_type
 import cv2
 import pyautogui
 import numpy as np
 import easyocr
 import time
+import math
 
 textDetectorEAST= cv2.dnn_TextDetectionModel_EAST(config.MODEL_PATH)
 textDetectorEAST.setConfidenceThreshold(config.CONF_THRESH)
@@ -102,7 +104,10 @@ def find_text_at_position(position, text=None):
     return None
 
 def click(position, text=None):
-    pyautogui.click(position[0], position[1])
+    dist = math.hypot(pyautogui.position().x - position[0], pyautogui.position().y - position[1])
+    time = dist / config.PIX_SEC_RATIO
+    pyautogui.moveTo(position[0], position[1], time, rand_move_type())
+    pyautogui.click()
     if text is not None:
         print(f"Clicked on text: {text} at ({position[0]}, {position[1]})")
     else:
