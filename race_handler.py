@@ -2,35 +2,47 @@ from coordinate import pos
 import pyautogui
 import cv2
 import numpy as np
-import matplotlib
+from time import sleep
 
-def count_filled_bars(image_path):
-    # Load image
-    image = pyautogui.screenshot(region=pos.get_window_from_game("RP_BAR"))
-    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+class Race_Handler():
+    def __init__(self):
+        self.rp_count = 0
 
-    # Blue color range (tune if needed)
-    lower_blue = np.array([90, 80, 80])   # hue ~90–130 is blue
-    upper_blue = np.array([130, 255, 255])
+    def auto_race(self):
+        self.count_filled_bars()
+        if self.rp_count > 0:
+            click
 
-    # Create mask for blue
-    mask = cv2.inRange(hsv, lower_blue, upper_blue)
+    def count_filled_bars(self):
+        image = pyautogui.screenshot(region=pos.get_window_from_game("RP_BAR"))
+        image = np.array(image)
 
-    # Find contours
-    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        # Blue color range (tune if needed)
+        lower_blue = np.array([30, 50, 100])   # hue ~90–130 is blue
+        upper_blue = np.array([150, 255, 255])
 
-    # Keep only reasonably sized blobs (filter out noise)
-    bar_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > 30]
+        # Create mask for blue
+        mask = cv2.inRange(image, lower_blue, upper_blue)
 
-    # Sort by x-position so they’re in order left → right
-    bar_contours = sorted(bar_contours, key=lambda c: cv2.boundingRect(c)[0])
+        # Find contours
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    return len(bar_contours), mask
+        # Keep only reasonably sized blobs (filter out noise)
+        bar_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > 30]
 
-# Example usage
-count, mask = count_filled_bars("1a853e10-d644-4da8-995a-438e22239ba0.png")
-print("Detected blue bars:", count)
+        # Sort by x-position so they’re in order left → right
+        bar_contours = sorted(bar_contours, key=lambda c: cv2.boundingRect(c)[0])
 
-cv2.imshow("Blue Mask", mask)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+        self.rp_count = len(bar_contours)
+        print(f"RP Count: {self.rp_count}/5")
+
+    def test_rp_count(self):
+        # Example usage
+        count, mask = self.count_filled_bars()
+        print("Detected blue bars:", count)
+
+        cv2.imshow("Blue Mask", mask)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+    
+race_handler = Race_Handler()

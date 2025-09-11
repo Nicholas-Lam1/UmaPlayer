@@ -22,19 +22,28 @@ class Positions:
 
         # Relative windows (x%, y%, width%, height%)
         self.RELATIVE_REGIONS = {
+            # Start Screen
             "START_BUTTON": (0.375, 0.8, 0.25, 0.14),       # Uses full window dimensions
+            # Main Menu
             "TITLE_BAR": (0, 0, 0.25, 0.18),
             "CAREER_BUTTON": (0.63, 0.836, 0.23, 0.054),
+            # Race Menu
             "RP_BAR": (0.545, 0.0425, 0.17, 0.02),
+            "TEAM_RACE": (0.3875, 0.640, 0.22, 0.05),
+            "SELECT_OPPONENT": (0.3875, 0.14, 0.22, 0.05),
         }
 
         # Relative points (x%, y%)
         self.RELATIVE_POINTS = {
+            # Main Menu
             "ENHANCE_BUTTON": (0.2, 0.96),
             "STORY_BUTTON": (0.325, 0.96), 
             "HOME_BUTTON": (0.5, 0.96),
             "RACE_BUTTON": (0.675, 0.96), 
-            "SCOUT_BUTTON": (0.8, 0.96),       
+            "SCOUT_BUTTON": (0.8, 0.96),  
+            # Race Menu  
+            "TEAM_RACE": (0.35, 0.65),
+            "DAILY_RACE": (0.35, 0.8),  
         }
 
     def rel_to_abs_win(self, rel):

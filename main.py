@@ -1,6 +1,6 @@
 from configuration import config
 from startup import open_game, find_and_open_window
-from handler import start_handler
+from menu_handler import start_handler
 import argparse
 import ctypes
 
