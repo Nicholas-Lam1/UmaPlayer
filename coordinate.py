@@ -20,14 +20,12 @@ class Positions:
         self.GAME_LEFT_OFFSET = 0
         self.GAME_TOP_OFFSET = 0                # Not handled yet
 
-        self.START_WINDOW ={
-            "START_BUTTON": (0.375, 0.8, 0.25, 0.14),
-        }
-
         # Relative windows (x%, y%, width%, height%)
-        self.RELATIVE_WINDOWS = {
+        self.RELATIVE_REGIONS = {
+            "START_BUTTON": (0.375, 0.8, 0.25, 0.14),       # Uses full window dimensions
             "TITLE_BAR": (0, 0, 0.25, 0.18),
             "CAREER_BUTTON": (0.63, 0.836, 0.23, 0.054),
+            "RP_COUNT": (0.66, 0.015, 0.0625, 0.04),
         }
 
         # Relative points (x%, y%)
@@ -47,14 +45,14 @@ class Positions:
         """
         if len(rel) == 2:
             x, y = rel
-            abs_x = int(x * self.WINDOW_WIDTH + self.WINDOW_LEFT)
-            abs_y = int(y * self.WINDOW_HEIGHT + self.WINDOW_TOP)
+            abs_x = int(x * self.WINDOW_WIDTH)
+            abs_y = int(y * self.WINDOW_HEIGHT)
             return (abs_x, abs_y)
 
         elif len(rel) == 4:
             x, y, w, h = rel
-            abs_x = int(x * self.WINDOW_WIDTH + self.WINDOW_LEFT)
-            abs_y = int(y * self.WINDOW_HEIGHT + self.WINDOW_TOP)
+            abs_x = int(x * self.WINDOW_WIDTH)
+            abs_y = int(y * self.WINDOW_HEIGHT)
             abs_w = int(w * self.WINDOW_WIDTH)
             abs_h = int(h * self.WINDOW_HEIGHT)
             return (abs_x, abs_y, abs_w, abs_h)
@@ -84,17 +82,37 @@ class Positions:
 
         else:
             raise ValueError(f"Unsupported rel format: {rel}")
-
-    def get_window(self, name):
-        """ Get absolute position by name """
-        if name not in self.RELATIVE_WINDOWS:
+        
+    def get_window_from_win(self, name):
+        """ Get absolute position for region relative to the window by name """
+        if name not in self.RELATIVE_REGIONS:
             raise KeyError(f"'{name}' not in RELATIVE_POSITIONS")
-        return self.rel_to_abs(self.RELATIVE_WINDOWS[name])
+        window = self.rel_to_abs_win(self.RELATIVE_REGIONS[name])
+        window = (window[0] + self.WINDOW_LEFT, window[1] + self.WINDOW_TOP, window[2], window[3])
+        return window
     
-    def get_point(self, name):
-        """ Get absolute point by name """
+    def get_point_from_win(self, name):
+        """ Get absolute point relative to the window by name """
         if name not in self.RELATIVE_POINTS:
             raise KeyError(f"'{name}' not in RELATIVE_POINTS")
-        return self.rel_to_abs(self.RELATIVE_POINTS[name])
+        point = self.rel_to_abs_win(self.RELATIVE_POINTS[name])
+        point = (point[0] + self.WINDOW_LEFT, point[1] + self.WINDOW_TOP)
+        return point
+
+    def get_window_from_game(self, name):
+        """ Get absolute position for region relative to the game area by name """
+        if name not in self.RELATIVE_REGIONS:
+            raise KeyError(f"'{name}' not in RELATIVE_POSITIONS")
+        window = self.rel_to_abs(self.RELATIVE_REGIONS[name])
+        window = (window[0] + self.GAME_LEFT, window[1] + self.GAME_TOP, window[2], window[3])
+        return window
+    
+    def get_point_from_game(self, name):
+        """ Get absolute point relative to the game area by name """
+        if name not in self.RELATIVE_POINTS:
+            raise KeyError(f"'{name}' not in RELATIVE_POINTS")
+        point = self.rel_to_abs(self.RELATIVE_POINTS[name])
+        point = (point[0] + self.GAME_LEFT, point[1] + self.GAME_TOP)
+        return point
 
 pos = Positions()

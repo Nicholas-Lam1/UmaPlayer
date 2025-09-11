@@ -62,13 +62,13 @@ def find_and_open_window():
             if config.DEBUG:
                 find_start_tool()  
                 sleep(3)
-            click_start_game()
+            # click_start_game()
             sleep(3)
             find_game_area()
         except:
             raise Exception("Window Not Found")
         
 def click_start_game():
-    while (position := find_text_at_position(position=pos.rel_to_abs_win(pos.START_WINDOW["START_BUTTON"]), text="TAP TO START")) is not None:
+    while (position := find_text_at_position(position=pos.get_window_from_win("START_BUTTON"), text="TAP TO START")) is not None:
         click(position, "TAP TO START")
-        rand_sleep(5)
+        rand_sleep(3)

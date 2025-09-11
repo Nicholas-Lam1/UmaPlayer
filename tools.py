@@ -10,17 +10,17 @@ def find_start_tool():
     image = np.array(image)
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-    position = pos.rel_to_abs_win(pos.START_WINDOW["START_BUTTON"])
+    position = pos.rel_to_abs_win(pos.RELATIVE_REGIONS["START_BUTTON"])
 
     if len(position) == 4:
-        pt1 = (position[0] - pos.WINDOW_LEFT, position[1] - pos.WINDOW_TOP)
+        pt1 = (position[0], position[1])
         pt2 = (position[0] + position[2], position[1] + position[3])
         cv2.rectangle(image, pt1, pt2, (0, 255, 0), 2)
     else:
         raise ValueError(f"Unsupported position format: {position}")
     
     cv2.imshow("Start Tool", image)
-    playsound.playsound('./wav_files/notification.wav')
+    # playsound.playsound('./wav_files/notification.wav')
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
@@ -33,7 +33,7 @@ def find_pos_tool():
 
     positions = []
 
-    for name, rel in pos.RELATIVE_WINDOWS.items():
+    for name, rel in pos.RELATIVE_REGIONS.items():
         abs_pos = pos.rel_to_abs(rel)
         positions.append(abs_pos)
 
@@ -54,7 +54,7 @@ def find_pos_tool():
     
     cv2.imwrite("position_tool.png", image)
     cv2.imshow("Position Tool", image)
-    playsound.playsound('./wav_files/notification.wav')
+    # playsound.playsound('./wav_files/notification.wav')
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
@@ -77,7 +77,7 @@ def reference_pos_tool():
 
     cv2.imwrite("reference_tool.png", image)
     cv2.imshow("Reference Tool", image)
-    playsound.playsound('./wav_files/notification.wav')
+    # playsound.playsound('./wav_files/notification.wav')
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()

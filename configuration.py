@@ -10,8 +10,8 @@ class Config:
 
         # OCR/EAST model parameters
         self.MODEL_PATH = "frozen_east_text_detection.pb"
-        self.CONF_THRESH = 0.2
-        self.NMS_THRESH = 0.5
+        self.CONF_THRESH = 0.5
+        self.NMS_THRESH = 0.1
         self.SCALE = 1.0
         self.INPUT_SIZE = (1280, 1280)
         self.MEAN = (123.68, 116.78, 103.94)

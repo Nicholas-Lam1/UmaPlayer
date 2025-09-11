@@ -72,6 +72,7 @@ def find_text_at_position(position, text=None):
     while time.time() - start_time < 10:
         if config.DEBUG:
             print("Taking screenshot...")
+            print(f"Position: {position}")
 
         image = pyautogui.screenshot(region=position)
         image = np.array(image)
@@ -92,8 +93,11 @@ def find_text_at_position(position, text=None):
 
     if config.DEBUG:
         print("No matching text found")
+        for detection in result:
+            print("Detected text:", detection[1])
         cv2.imshow("Text Detection", image)
         cv2.waitKey(0)
+        cv2.destroyAllWindows()
     
     return None
 
