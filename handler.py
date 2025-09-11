@@ -1,21 +1,14 @@
 from coordinate import pos
 from ocr import find_text_at_position, click
-from tools import find_start_tool, find_pos_tool, reference_pos_tool
+from tools import find_pos_tool, reference_pos_tool
 from rand_adjust import rand_sleep
 
 def start_handler():
     # start_game()
     # test_menu()
-    find_start_tool()    
-    rand_sleep(5)
     find_pos_tool()
     rand_sleep(1)
     reference_pos_tool()
-
-def start_game():
-    while (pos := find_text_at_position(position=pos.START_BUTTON_POS, text="TAP TO START")) is not None:
-        click(pos, "TAP TO START")
-        rand_sleep(5)
 
 def test_menu():
     while find_text_at_position(position=pos.TITLE_BAR_POS, text="Enhance") is not None:

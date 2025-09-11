@@ -18,17 +18,16 @@ def get_win_cords():
         print(f"Client Area Coordinates: Left={client_left_top[0]}, Top={client_left_top[1]}, Right={client_right_bottom[0]}, Bottom={client_right_bottom[1]}")
         print(f"Client Area Dimensions: Width={width}, Height={height}")
 
-    pos.WINDOW_LEFT = client_left_top[0]
-    pos.WINDOW_TOP = client_left_top[1]
-    pos.WINDOW_RIGHT = client_right_bottom[0]
-    pos.WINDOW_BOTTOM = client_right_bottom[1]
-    pos.WINDOW_WIDTH = width
-    pos.WINDOW_HEIGHT = height
+    pos.WINDOW_LEFT = int(client_left_top[0])
+    pos.WINDOW_TOP = int(client_left_top[1])
+    pos.WINDOW_RIGHT = int(client_right_bottom[0])
+    pos.WINDOW_BOTTOM = int(client_right_bottom[1])
+    pos.WINDOW_WIDTH = int(width)
+    pos.WINDOW_HEIGHT = int(height)
 
 def find_game_area():
     """ Function to find the game area within the window """
     # Find and set window coordinates
-    get_win_cords()
     if config.DEBUG:
         print("Initial Window:", pos.WINDOW_LEFT, pos.WINDOW_TOP,
             pos.WINDOW_RIGHT, pos.WINDOW_BOTTOM,
@@ -76,12 +75,14 @@ def find_game_area():
         if abs(x1 - x2) > 5:
             raise Exception("Detected line is not vertical.")
 
-        pos.GAME_LEFT = pos.WINDOW_LEFT + int(x1)
-        pos.GAME_RIGHT = pos.WINDOW_RIGHT - int(x1)
-        pos.GAME_TOP = pos.WINDOW_TOP
-        pos.GAME_BOTTOM = pos.WINDOW_BOTTOM
+        pos.GAME_LEFT_OFFSET = x1
+        pos.GAME_TOP_OFFSET = 0
+        pos.GAME_LEFT = int(pos.WINDOW_LEFT + x1)
+        pos.GAME_RIGHT = int(pos.WINDOW_RIGHT - x1)
+        pos.GAME_TOP = int(pos.WINDOW_TOP)
+        pos.GAME_BOTTOM = int(pos.WINDOW_BOTTOM)
         pos.GAME_WIDTH = int((pos.WINDOW_WIDTH - int(x1 * 2)) // 2)
-        pos.GAME_HEIGHT = pos.WINDOW_HEIGHT
+        pos.GAME_HEIGHT = int(pos.WINDOW_HEIGHT)
 
     # If no or multiple lines found, raise exception
     else:

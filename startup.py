@@ -1,10 +1,13 @@
 from configuration import config
-import subprocess
-import time
-from time import sleep
+from coordinate import pos
+from coordinate_handler import get_win_cords, find_game_area
+from ocr import find_text_at_position, click
+from rand_adjust import rand_sleep
+from tools import find_start_tool
+from time import sleep, time
 from win32 import win32gui
 from win32.lib import win32con
-from coordinate_handler import find_game_area
+import subprocess
 
 def open_game():
     """ Function to open the game via Steam """
@@ -28,8 +31,8 @@ def get_open_window_titles():
 def find_and_open_window():
     """ Function to find and open the game window """
     # Wait up to 15 seconds for the game window to appear
-    start_time = time.time()
-    while time.time() - start_time < 15:
+    start_time = time()
+    while time() - start_time < 15:
         open_windows = get_open_window_titles()
         if config.DEBUG:
             print("Open Windows:")
@@ -54,6 +57,18 @@ def find_and_open_window():
 
             # Allow time for the window to stabilize, then set window coordinates   
             sleep(3)
+            get_win_cords()
+            sleep(3)
+            if config.DEBUG:
+                find_start_tool()  
+                sleep(3)
+            click_start_game()
+            sleep(3)
             find_game_area()
         except:
             raise Exception("Window Not Found")
+        
+def click_start_game():
+    while (position := find_text_at_position(position=pos.rel_to_abs_win(pos.START_WINDOW["START_BUTTON"]), text="TAP TO START")) is not None:
+        click(position, "TAP TO START")
+        rand_sleep(5)

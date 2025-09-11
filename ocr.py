@@ -75,7 +75,7 @@ def find_text_at_position(position, text=None):
 
         image = pyautogui.screenshot(region=position)
         image = np.array(image)
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
         result = reader.readtext(image)
 

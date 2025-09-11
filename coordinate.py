@@ -17,14 +17,17 @@ class Positions:
         self.GAME_WIDTH = 0
         self.GAME_HEIGHT = 0
 
+        self.GAME_LEFT_OFFSET = 0
+        self.GAME_TOP_OFFSET = 0                # Not handled yet
+
         self.START_WINDOW ={
-            "START_BUTTON": (0.4, 0.89, 0.2, 0.08),
+            "START_BUTTON": (0.375, 0.8, 0.25, 0.14),
         }
 
         # Relative windows (x%, y%, width%, height%)
         self.RELATIVE_WINDOWS = {
-            "TITLE_BAR": (0, 0, 0.25, 0.2),
-            "CAREER_BUTTON": (0.61, 0.84, 0.17, 0.05),
+            "TITLE_BAR": (0, 0, 0.25, 0.18),
+            "CAREER_BUTTON": (0.63, 0.836, 0.23, 0.054),
         }
 
         # Relative points (x%, y%)
@@ -35,6 +38,29 @@ class Positions:
             "RACE_BUTTON": (0.675, 0.96), 
             "SCOUT_BUTTON": (0.8, 0.96),       
         }
+
+    def rel_to_abs_win(self, rel):
+        """
+        Convert relative coordinates -> absolute
+        If rel = (x%, y%) -> returns (x, y)
+        If rel = (x%, y%, w%, h%) -> returns (x, y, w, h)
+        """
+        if len(rel) == 2:
+            x, y = rel
+            abs_x = int(x * self.WINDOW_WIDTH + self.WINDOW_LEFT)
+            abs_y = int(y * self.WINDOW_HEIGHT + self.WINDOW_TOP)
+            return (abs_x, abs_y)
+
+        elif len(rel) == 4:
+            x, y, w, h = rel
+            abs_x = int(x * self.WINDOW_WIDTH + self.WINDOW_LEFT)
+            abs_y = int(y * self.WINDOW_HEIGHT + self.WINDOW_TOP)
+            abs_w = int(w * self.WINDOW_WIDTH)
+            abs_h = int(h * self.WINDOW_HEIGHT)
+            return (abs_x, abs_y, abs_w, abs_h)
+
+        else:
+            raise ValueError(f"Unsupported rel format: {rel}")
 
     def rel_to_abs(self, rel):
         """

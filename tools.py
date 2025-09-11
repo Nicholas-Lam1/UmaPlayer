@@ -6,14 +6,14 @@ import playsound
 
 def find_start_tool():
     """ Tool to display game area with rectangles at specified positions for reference """
-    image = pyautogui.screenshot(region=(pos.WINDOW_LEFT, pos.WINDOW_RIGHT, pos.WINDOW_WIDTH, pos.WINDOW_HEIGHT))
+    image = pyautogui.screenshot(region=(pos.WINDOW_LEFT, pos.WINDOW_TOP, pos.WINDOW_WIDTH, pos.WINDOW_HEIGHT))
     image = np.array(image)
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-    position = pos.rel_to_abs(pos.START_WINDOW["START_BUTTON"])
+    position = pos.rel_to_abs_win(pos.START_WINDOW["START_BUTTON"])
 
     if len(position) == 4:
-        pt1 = (position[0], position[1])
+        pt1 = (position[0] - pos.WINDOW_LEFT, position[1] - pos.WINDOW_TOP)
         pt2 = (position[0] + position[2], position[1] + position[3])
         cv2.rectangle(image, pt1, pt2, (0, 255, 0), 2)
     else:
