@@ -1,5 +1,5 @@
 from coordinate import pos
-from ocr import find_text_at_position, click
+from screen_reader import find_text_at_position, click
 from tools import find_pos_tool, reference_pos_tool
 from rand_adjust import rand_sleep
 from race_handler import race_handler

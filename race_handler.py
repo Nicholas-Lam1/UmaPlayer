@@ -11,7 +11,6 @@ class Race_Handler():
     def auto_race(self):
         self.count_filled_bars()
         if self.rp_count > 0:
-            click
 
     def count_filled_bars(self):
         image = pyautogui.screenshot(region=pos.get_window_from_game("RP_BAR"))

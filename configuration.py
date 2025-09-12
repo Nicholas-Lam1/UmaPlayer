@@ -10,7 +10,7 @@ class Config:
         self.GAME_EDGE_THRESH = 10
 
         # Movement parameters
-        self.PIX_SEC_RATIO = 200
+        self.PIX_SEC_RATIO = 150
 
         # OCR/EAST model parameters
         self.MODEL_PATH = "frozen_east_text_detection.pb"
