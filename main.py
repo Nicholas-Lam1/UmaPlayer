@@ -1,5 +1,5 @@
 from configuration import config
-from startup import open_game, find_and_open_window
+from startup import starter
 from menu_handler import start_handler
 import argparse
 import ctypes
@@ -23,8 +23,8 @@ def main():
         print(args)
 
     # Opens game and defines window coordinates for visual operations
-    open_game()
-    find_and_open_window()
+    starter.open_game()
+    starter.find_and_open_window()
 
     # Begin the main handler
     start_handler()

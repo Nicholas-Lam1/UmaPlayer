@@ -1,4 +1,5 @@
 from coordinate import pos
+from screen_reader import screen_reader
 import pyautogui
 import cv2
 import numpy as np
@@ -11,6 +12,7 @@ class Race_Handler():
     def auto_race(self):
         self.count_filled_bars()
         if self.rp_count > 0:
+            screen_reader.click_and_find("TEAM_RACE", "TEAM_RACE", "Team Race")
 
     def count_filled_bars(self):
         image = pyautogui.screenshot(region=pos.get_window_from_game("RP_BAR"))

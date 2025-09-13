@@ -77,7 +77,8 @@ def find_game_area():
 
         for x, y, d in edges:
             if abs(x - avg_x) > 5:
-                raise Exception("Detected line is not vertical.")
+                print("Detected line is not vertical.")
+                return False
             
         if config.DEBUG:
             print(f"Line: ({edges[0][0]}, {edges[0][1]}) to ({edges[-1][0]}, {edges[-1][1]})")

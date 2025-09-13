@@ -5,7 +5,7 @@ import cv2
 import pyautogui
 import numpy as np
 import easyocr
-import time
+from time import monotonic
 import math
 
 class Screen_Reader():
@@ -18,8 +18,8 @@ class Screen_Reader():
         return image
 
     def find_text_at_position(self, position, text=None, timeout=None):
-        end_time = None if timeout is None else time.monotonic() + timeout
-        while end_time is None or time.monotonic() < end_time:
+        end_time = None if timeout is None else monotonic() + timeout
+        while end_time is None or monotonic() < end_time:
             if config.DEBUG:
                 print("Taking screenshot...")
                 print(f"Position: {position}")
@@ -59,5 +59,10 @@ class Screen_Reader():
             print(f"Clicked on text: {text} at ({position[0]}, {position[1]})")
         else:
             print(f"Clicked at ({position[0]}, {position[1]})")
+
+    def click_and_find(self, button_key, window_key, expected_text):
+        ''' Click until the expected text is found to confirm menu change '''
+        while not screen_reader.find_text_at_position(position=pos.get_window_from_game(window_key), text=expected_text) is not None:
+            screen_reader.click(pos.get_point_from_game(button_key), expected_text)
 
 screen_reader = Screen_Reader()

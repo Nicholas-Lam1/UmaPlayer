@@ -4,7 +4,7 @@ from screen_reader import screen_reader
 from coordinate_handler import get_win_cords, find_game_area
 from rand_adjust import rand_sleep
 from tools import find_start_tool
-from time import sleep, time
+from time import sleep, monotonic
 from win32 import win32gui
 from win32.lib import win32con
 import subprocess
@@ -32,8 +32,8 @@ class Starter():
     def find_and_open_window(self, timeout = 600):
         """ Function to find and open the game window """
         # Wait up to 15 seconds for the game window to appear
-        end_time = None if timeout is None else time.monotonic() + timeout
-        while end_time is None or time.monotonic() < end_time:
+        end_time = None if timeout is None else monotonic() + timeout
+        while end_time is None or monotonic() < end_time:
             open_windows = self.get_open_window_titles()
             if config.DEBUG:
                 print("Open Windows:")
@@ -64,8 +64,8 @@ class Starter():
                     find_start_tool()  
                     sleep(3)
                 self.click_start_game()
-                end_time = time.monotonic() + 60
-                while  time.monotonic() < end_time:
+                end_time = monotonic() + 60
+                while  monotonic() < end_time:
                     if find_game_area():
                         break
                     sleep(0.5)
@@ -73,5 +73,7 @@ class Starter():
                 raise Exception("Window Not Found")
             
     def click_start_game(self):
-        while (position := screen_reader.find_text_at_position(position=pos.get_window_from_win("START_BUTTON"), text="TAP TO START")) is not None:
-            screen_reader.click(position, "TAP TO START")
+        position = screen_reader.find_text_at_position(position=pos.get_window_from_win("START_BUTTON"), text="TAP TO START")
+        screen_reader.click(position, "TAP TO START")
+
+starter = Starter()
